@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}SportCenter - Portal Principal{% endblock %}
+
+{% block content %}
+<style>
+    /* Efectos premium para las tarjetas de selección */
+    .portal-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+    }
+    
+    /* Iluminación al pasar el mouse */
+    .portal-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(220, 53, 69, 0.5);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(220, 53, 69, 0.2);
+    }
+
+    /* Fondos texturizados mediante gradientes */
+    .bg-ufc {
+        background: linear-gradient(145deg, #1a0505 0%, #000000 100%);
+    }
+    
+    .bg-motogp {
+        background: linear-gradient(145deg, #0a0a0a 0%, #171717 100%);
+    }
+
+    /* Animación de los logos dentro de las tarjetas */
+    .logo-showcase {
+        transition: transform 0.5s ease, filter 0.5s ease;
+    }
+    
+    .portal-card:hover .logo-showcase {
+        transform: scale(1.08);
+    }
+    
+    .portal-card:hover .logo-showcase.ufc {
+        filter: drop-shadow(0px 0px 15px rgba(220, 53, 69, 0.6));
+    }
+    
+    .portal-card:hover .logo-showcase.motogp {
+        filter: invert(1) drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.4));
+    }
+
+    /* Efecto de brillo en el botón */
+    .btn-portal {
+        transition: all 0.3s ease;
+    }
+    .portal-card:hover .btn-portal {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+</style>
+
+<div class="container py-5 mt-4">
+    
+    <!-- Cabecera del Portal -->
+    <div class="text-center mb-5 pb-4 border-bottom border-secondary border-opacity-25">
+        <h1 class="display-3 fw-bold text-uppercase fst-italic mb-3">
+            <span class="text-danger">Sport</span>Center
+        </h1>
+        <p class="fs-4 text-white-50 fw-light">
+            Selecciona tu disciplina para ingresar a la base de datos oficial.
+        </p>
+    </div>
+
+    <!-- Menú de Selección de Disciplinas -->
+    <div class="row g-4 g-lg-5 align-items-stretch">
+        
+        <!-- Tarjeta UFC -->
+        <div class="col-md-6">
+            <div class="portal-card bg-ufc h-100 p-5 d-flex flex-column justify-content-between">
+                <!-- Enlace invisible que cubre toda la tarjeta -->
+                <a href="{% url 'ufc_inicio' %}" class="stretched-link"></a>
+                
+                <div class="text-center mb-4 mt-3" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                    <img src="{% static 'img/UFC_Logo.png' %}" alt="UFC Logo" class="img-fluid logo-showcase ufc" style="max-height: 90px;">
+                </div>
+                
+                <div class="text-center mt-auto">
+                    <h2 class="text-uppercase fw-bold text-white mb-3">Artes Marciales Mixtas</h2>
+                    <p class="text-white-50 mb-4 lh-lg px-2">
+                        Explora la dinastía de Abdulmanap Nurmagomedov. Estadísticas detalladas, récords de combate y el roster oficial de los campeones del Cáucaso.
+                    </p>
+                    <span class="btn btn-outline-danger btn-lg text-uppercase fw-bold px-5 btn-portal shadow-sm">
+                        Ingresar al Octágono
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta MotoGP -->
+        <div class="col-md-6">
+            <div class="portal-card bg-motogp h-100 p-5 d-flex flex-column justify-content-between">
+                <!-- Enlace invisible que cubre toda la tarjeta -->
+                <a href="{% url 'motogp_inicio' %}" class="stretched-link"></a>
+                
+                <div class="text-center mb-4 mt-3" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                    <img src="{% static 'img/MotoGP-Logo.png' %}" alt="MotoGP Logo" class="img-fluid logo-showcase motogp" style="max-height: 300px; filter: invert(1);">
+                </div>
+                
+                <div class="text-center mt-auto">
+                    <h2 class="text-uppercase fw-bold text-white mb-3 fst-italic">Categoría Reina</h2>
+                    <p class="text-white-50 mb-4 lh-lg px-2">
+                        Accede al paddock virtual. Revisa la parrilla oficial, configuraciones de escuderías y los datos técnicos de los prototipos más rápidos del planeta.
+                    </p>
+                    <span class="btn btn-outline-light btn-lg text-uppercase fw-bold px-5 btn-portal shadow-sm fst-italic">
+                        Encender Motores
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Pie de página integrado -->
+    <div class="text-center mt-5 pt-4 text-white-50 border-top border-secondary border-opacity-25 fs-6">
+        <p class="m-0">© 2026 SportCenter. Desarrollado por sadex1425 para INACAP.</p>
+    </div>
+
+</div>
+{% endblock %}

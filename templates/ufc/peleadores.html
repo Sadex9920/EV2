@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Team Khabib - Roster Oficial{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-dark p-5 rounded-3 shadow-lg mb-5 mt-4">
+    
+    <!-- Encabezado con Logo UFC -->
+    <div class="d-flex align-items-center justify-content-center mb-5 border-bottom border-danger pb-4">
+        <img src="{% static 'img/UFC_Logo.png' %}" alt="UFC Logo" style="height: 60px; margin-right: 25px; filter: drop-shadow(0px 0px 10px rgba(220, 53, 69, 0.5));">
+        <h2 class="text-uppercase fw-bold m-0 text-white display-5">Roster Oficial</h2>
+    </div>
+
+    <!-- SECCIÓN DE HOMENAJE A ABDULMANAP -->
+    <div class="card bg-black border-danger shadow-lg border-2 mb-5">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-4 h-100">
+                <img src="{% static 'img/abdulmanap.webp' %}" class="img-fluid rounded-start w-100 h-100" style="object-fit: cover;" alt="Abdulmanap Nurmagomedov">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-5">
+                    <h3 class="card-title text-danger fw-bold text-uppercase mb-2">Abdulmanap Nurmagomedov</h3>
+                    <h5 class="text-white-50 mb-4">El Padre del Sambo Moderno (1962 - 2020)</h5>
+                    
+                    <p class="card-text text-light fs-5 lh-lg mb-4">
+                        Entrenador legendario y maestro de deportes en Lucha Libre y Judo. Construyó una dinastía inigualable desde las montañas de Daguestán, forjando campeones mundiales a base de disciplina férrea, humildad y una técnica de grappling que cambió la historia de las artes marciales mixtas para siempre.
+                    </p>
+                    
+                    <div class="bg-dark border border-danger p-3 rounded d-inline-block shadow">
+                        <h6 class="text-white text-uppercase mb-1">Récord Combinado de sus Alumnos:</h6>
+                        <h2 class="text-danger fw-bold mb-0">134 - 10 - 1</h2>
+                        <small class="text-white-50">134 Victorias | 10 Derrotas | 1 Empate</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Título divisor -->
+    <h3 class="text-center text-white text-uppercase fw-bold mb-3 mt-5">Luchadores</h3>
+
+    <!-- BOTONES GENERALES (Requisito de Rúbrica) -->
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        <a href="#" class="btn btn-success btn-lg text-uppercase fw-bold px-4 shadow">Agregar Peleador</a>
+        <button class="btn btn-info btn-lg text-white text-uppercase fw-bold px-4 shadow">Buscar</button>
+    </div>
+
+    <!-- Grilla de Peleadores -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for peleador in peleadores %}
+        <div class="col">
+            <div class="card h-100 bg-black border-danger shadow border-2">
+                
+<!-- Contenedor de la Imagen -->
+<div style="background-color: #111; height: 350px; overflow: hidden;" class="border-bottom border-danger">
+    {% if peleador.imagen_url %}
+        {% if 'http' in peleador.imagen_url %}
+            <!-- Carga la imagen directamente desde el link de internet -->
+            <img src="{{ peleador.imagen_url }}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
+        {% else %}
+            <!-- Carga la imagen desde tu carpeta local /static/img/ -->
+            <img src="{% static 'img/'|add:peleador.imagen_url %}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
+        {% endif %}
+    {% else %}
+        <div class="d-flex justify-content-center align-items-center h-100 text-secondary">Sin imagen</div>
+    {% endif %}
+</div>
+                
+                <!-- Datos del Peleador -->
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="card-title fw-bold text-white text-uppercase mb-1">{{ peleador.nombre }}</h4>
+                    
+                    {% if peleador.apodo %}
+                        <h6 class="card-subtitle mb-4 text-danger fw-bold">"{{ peleador.apodo }}"</h6>
+                    {% else %}
+                        <h6 class="card-subtitle mb-4 text-secondary fw-bold">---</h6>
+                    {% endif %}
+                    
+                    <ul class="list-group list-group-flush border-danger mb-4">
+                        <li class="list-group-item bg-black text-light border-danger px-0">
+                            <strong class="text-danger">Categoría:</strong> {{ peleador.categoria.nombre }}
+                        </li>
+                        <li class="list-group-item bg-black text-light border-danger px-0">
+                            <strong class="text-danger">Récord:</strong> {{ peleador.record }}
+                        </li>
+                        <li class="list-group-item bg-black text-light border-danger px-0">
+                            <strong class="text-danger">Gimnasio:</strong> 
+                            {% if peleador.gimnasio %}
+                                {{ peleador.gimnasio.nombre }}
+                            {% else %}
+                                Sin equipo
+                            {% endif %}
+                        </li>
+                    </ul>
+
+                    <!-- BOTONES DE ACCIÓN INDIVIDUAL (Requisito de Rúbrica) -->
+                    <div class="d-flex justify-content-between mt-auto">
+                        <a href="#" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
+                        <a href="#" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-white-50">No hay peleadores registrados en la base de datos.</h4>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-5">
+         <a href="{% url 'ufc_inicio' %}" class="btn btn-outline-danger btn-lg text-uppercase fw-bold px-5">Volver</a>
+    </div>
+</div>
+{% endblock %}

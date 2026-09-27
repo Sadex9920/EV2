@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MotoGP - La Categoría Reina{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-dark text-light p-5 rounded-3 shadow-lg border border-danger border-2 mb-5 mt-4">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-3 fw-bold text-uppercase mb-3 fst-italic">
+                <span class="text-danger">Moto</span>GP
+            </h1>
+            <h4 class="text-white-50 mb-4 fst-italic">El Campeonato del Mundo de Motociclismo</h4>
+            
+            <p class="fs-5 lh-lg mb-4 text-light">
+                Bienvenido a la cúspide del deporte de dos ruedas. Prototipos de más de 300 caballos de fuerza, velocidades que superan los 360 km/h y los pilotos más valientes del planeta peleando carenado con carenado. Descubre a los contendientes de la parrilla actual y sus máquinas oficiales.
+            </p>
+            
+            <hr class="border-danger opacity-50 mb-4">
+            
+            <p class="mb-3 text-light fw-semibold fst-italic">
+                Contendientes en el Paddock:
+            </p>
+            
+            <div class="d-flex flex-wrap gap-2 mb-5">
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm fst-italic">#89 Martín</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm fst-italic">#93 Márquez</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm fst-italic">#37 Acosta</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm fst-italic">#10 Marini</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm fst-italic">#20 Quartararo</span>
+            </div>
+            
+            <a href="{% url 'motogp_pilotos' %}" class="btn btn-danger btn-lg text-uppercase fw-bold px-5 py-3 shadow fst-italic">
+                Ver Parrilla de Salida
+            </a>
+        </div>
+        
+        <div class="col-lg-4 d-none d-lg-block text-center">
+            <!-- Contenedor blanco para asegurar el contraste del logo -->
+            <div class="bg-white rounded-4 p-4 d-inline-block shadow-lg border border-danger border-3 shadow-danger">
+                <img src="{% static 'img/MotoGP-Logo.png' %}" alt="MotoGP Logo" class="img-fluid" style="max-width: 260px;">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

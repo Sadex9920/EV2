@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MotoGP - Equipos Oficiales{% endblock %}
+
+{% block content %}
+<!-- Agregamos max-width y mx-auto para contener el ancho global y reducir la altura proporcional de las fotos -->
+<div class="container-fluid bg-dark p-3 p-lg-4 rounded-3 shadow-lg mb-5 mt-4 border-bottom border-3 border-secondary mx-auto" style="max-width: 1400px;">
+    
+    <!-- Encabezado MotoGP con Logo -->
+    <div class="d-flex align-items-center justify-content-center mb-4 border-bottom border-secondary pb-3">
+        <img src="{% static 'img/MotoGP-Logo.png' %}" alt="MotoGP Logo Oficial" style="height: 80px; object-fit: contain; filter: invert(1);">
+    </div>
+
+    <!-- Grilla de Equipos (2 por fila) -->
+    <div class="row g-4">
+        {% for equipo in pilotos %}
+        <div class="col-12 col-xl-6">
+            <div class="card shadow-lg border-0 overflow-hidden rounded-4 h-100">
+                
+                <!-- Imagen del Equipo -->
+                <div class="bg-black">
+                    <img src="{% static 'img/'|add:equipo.imagen %}" class="w-100" style="height: auto; display: block;" alt="{{ equipo.equipo }}">
+                </div>
+                
+                <!-- Casilla del Equipo con Fondo de Colores Dinámicos (Paddings reducidos) -->
+                {% if equipo.equipo == "Aprilia Racing" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #000000 0%, #5e1f8a 50%, #ff0000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Ducati Lenovo Team" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ff0000 0%, #ffffff 50%, #000000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Red Bull KTM Factory Racing" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ff6600 0%, #ffcc00 50%, #ff0000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Honda HRC Castrol" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ff0000 0%, #ffffff 50%, #0033cc 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Monster Energy Yamaha MotoGP" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #0033cc 0%, #000000 33%, #ff0000 66%, #ffffff 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "SuperFile Trackhouse MotoGP Team" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ffff00 0%, #000000 50%, #ffffff 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "BK8 Gresini Racing MotoGP" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #87ceeb 0%, #0000cd 50%, #e0e0e0 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Prima Pramac Yamaha MotoGP" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #0000ff 0%, #800080 33%, #ff0000 66%, #000000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Pertamina Enduro VR46 Racing Team" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ffff00 0%, #000000 50%, #ff0000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Red Bull KTM Tech3" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ff8c00 0%, #ffff00 33%, #ff0000 66%, #000000 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "CASTROL Honda LCR" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ffffff 0%, #008000 33%, #ff0000 66%, #0000ff 100%); flex-grow: 1;">
+                {% elif equipo.equipo == "Pro Honda LCR" %}
+                    <div class="card-body p-2 p-md-3" style="background: linear-gradient(135deg, #ff0000 0%, #0000ff 50%, #ffffff 100%); flex-grow: 1;">
+                {% else %}
+                    <div class="card-body p-2 p-md-3" style="background: #333; flex-grow: 1;">
+                {% endif %}
+
+                    <!-- Panel de cristal oscuro compactado -->
+                    <div class="p-3 rounded-3 shadow-lg h-100" style="background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);">
+                        
+                        <!-- Título más compacto -->
+                        <div class="text-center mb-3 border-bottom border-secondary pb-2">
+                            <h4 class="fw-bold text-uppercase mb-0 text-white fst-italic">{{ equipo.equipo }}</h4>
+                            <p class="text-white-50 fst-italic m-0" style="font-size: 0.9rem;">Prototipo: {{ equipo.moto }}</p>
+                        </div>
+                        
+                        <div class="row g-2">
+                            <!-- Columna Piloto 1 -->
+                            <div class="{% if equipo.piloto2 %}col-6 border-end border-secondary border-opacity-50{% else %}col-12 px-4{% endif %}">
+                                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-2 pe-2">
+                                    <h5 class="fw-bold text-uppercase mb-0 text-light" style="font-size: 1rem;">{{ equipo.piloto1.nombre }}</h5>
+                                    <span class="fs-5 fw-bold text-white-50 fst-italic">#{{ equipo.piloto1.dorsal }}</span>
+                                </div>
+                                <ul class="list-unstyled mb-0 pe-2 text-light" style="font-size: 0.85rem;">
+                                    <li class="mb-1 border-bottom border-secondary border-opacity-25 pb-1">
+                                        <strong class="text-white-50 d-block d-sm-inline">Nación:</strong> {{ equipo.piloto1.nacion }}
+                                    </li>
+                                    <li class="mb-1 border-bottom border-secondary border-opacity-25 pb-1">
+                                        <strong class="text-white-50 d-block d-sm-inline">Nac:</strong> {{ equipo.piloto1.fecha_nacimiento }}
+                                    </li>
+                                    <li class="mb-0">
+                                        <strong class="text-white-50 d-block d-sm-inline">Origen:</strong> {{ equipo.piloto1.lugar_nacimiento }}
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Columna Piloto 2 (Solo si existe) -->
+                            {% if equipo.piloto2 %}
+                            <div class="col-6">
+                                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-2 ps-2">
+                                    <h5 class="fw-bold text-uppercase mb-0 text-light" style="font-size: 1rem;">{{ equipo.piloto2.nombre }}</h5>
+                                    <span class="fs-5 fw-bold text-white-50 fst-italic">#{{ equipo.piloto2.dorsal }}</span>
+                                </div>
+                                <ul class="list-unstyled mb-0 ps-2 text-light" style="font-size: 0.85rem;">
+                                    <li class="mb-1 border-bottom border-secondary border-opacity-25 pb-1">
+                                        <strong class="text-white-50 d-block d-sm-inline">Nación:</strong> {{ equipo.piloto2.nacion }}
+                                    </li>
+                                    <li class="mb-1 border-bottom border-secondary border-opacity-25 pb-1">
+                                        <strong class="text-white-50 d-block d-sm-inline">Nac:</strong> {{ equipo.piloto2.fecha_nacimiento }}
+                                    </li>
+                                    <li class="mb-0">
+                                        <strong class="text-white-50 d-block d-sm-inline">Origen:</strong> {{ equipo.piloto2.lugar_nacimiento }}
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div> <!-- Fin del panel oscuro -->
+                </div> <!-- Fin de la casilla con colores dinámicos -->
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-5">
+         <a href="{% url 'motogp_inicio' %}" class="btn btn-outline-light btn-lg text-uppercase fw-bold px-5 fst-italic">Volver al Paddock</a>
+    </div>
+</div>
+{% endblock %}

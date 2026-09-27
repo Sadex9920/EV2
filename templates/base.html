@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal Deportivo{% endblock %}</title>
+    
+    <!-- BOOTSTRAP CSS LOCAL -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    
+    <style>
+        /* Fondo oscuro global */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        /* Efectos interactivos para los botones del Navbar */
+        .nav-logo {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        
+        /* Efecto al pasar el mouse por UFC */
+        .nav-logo.ufc:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0px 0px 10px rgba(220, 53, 69, 0.8));
+        }
+        
+        /* Efecto al pasar el mouse por MotoGP (incluye la inversión a blanco) */
+        .nav-logo.motogp {
+            filter: invert(1);
+        }
+        .nav-logo.motogp:hover {
+            transform: scale(1.1);
+            filter: invert(1) drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.6));
+        }
+        
+        .navbar-brand {
+            transition: opacity 0.3s ease;
+        }
+        .navbar-brand:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR GLOBAL -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-danger border-2 shadow-lg mb-4">
+        <div class="container-fluid px-4 px-lg-5">
+            <!-- Logo / Título del Portal (Regresa a la raíz del proyecto) -->
+            <a class="navbar-brand fw-bold text-uppercase fs-4 fst-italic" href="/">
+                <span class="text-danger">Sport</span>Center
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Enlaces de navegación (Botones gráficos) -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item me-4 mb-3 mb-lg-0 mt-3 mt-lg-0">
+                        <a class="nav-link p-0" href="{% url 'ufc_inicio' %}" title="Inicio UFC">
+                            <img src="{% static 'img/UFC_Logo.png' %}" alt="UFC" class="nav-logo ufc" style="height: 32px;">
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2 mb-lg-0">
+                        <a class="nav-link p-0" href="{% url 'motogp_inicio' %}" title="Inicio MotoGP">
+                            <img src="{% static 'img/MotoGP-Logo.png' %}" alt="MotoGP" class="nav-logo motogp" style="height: 80px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO DINÁMICO DE CADA PÁGINA -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- BOOTSTRAP JS LOCAL -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

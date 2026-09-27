@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}UFC - El Legado de Daguestán{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-dark text-light p-5 rounded-3 shadow-lg border border-danger border-2 mb-5 mt-4">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-3 fw-bold text-uppercase mb-3">El Legado de Daguestán</h1>
+            <h4 class="text-danger mb-4">La escuela de Abdulmanap Nurmagomedov</h4>
+            
+            <p class="fs-5 lh-lg mb-4 text-white-50">
+                La influencia del Sambo, la lucha encadenada y la presión constante han revolucionado las artes marciales mixtas modernas. Desde las frías montañas del Cáucaso hasta los octágonos más importantes del mundo, esta disciplina implacable ha forjado campeones indiscutidos y dinastías inquebrantables.
+            </p>
+            
+            <hr class="border-danger opacity-50 mb-4">
+            
+            <p class="mb-3 text-light fw-semibold">
+                Roster oficial bajo análisis:
+            </p>
+            
+            <div class="d-flex flex-wrap gap-2 mb-5">
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Khabib</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Islam</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Umar</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Usman</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Tagir</span>
+                <span class="badge bg-danger fs-6 py-2 px-3 shadow-sm">Abubakar</span>
+            </div>
+            
+            <a href="{% url 'ufc_peleadores' %}" class="btn btn-danger btn-lg text-uppercase fw-bold px-5 py-3 shadow">
+                Ver Estadísticas Oficiales
+            </a>
+        </div>
+        
+        <div class="col-lg-4 d-none d-lg-block text-center">
+            <!-- Logo de la UFC cargado desde los archivos estáticos -->
+            <img src="{% static 'img/UFC_Logo.png' %}" alt="UFC Logo" class="img-fluid" style="max-width: 280px; filter: drop-shadow(0px 0px 20px rgba(220, 53, 69, 0.5));">
+        </div>
+    </div>
+</div>
+{% endblock %}
