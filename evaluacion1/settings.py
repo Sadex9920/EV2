@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Carga las variables del archivo .env
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -20,8 +24,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7_y2*jl+0z3*%m0yp%(++@+h(==i07&fnqad-26_$a95tk72(7'
+# La llave ahora está oculta y se lee desde el .env
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
+DEBUG = True
+ALLOWED_HOSTS = []
+
+# Configuración conectada a MySQL mediante variables de entorno
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    }
+}
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -130,3 +149,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
