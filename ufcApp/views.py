@@ -1,14 +1,82 @@
-from django.shortcuts import render
-from .models import Peleador # Importamos la tabla de peleadores
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
+from django.contrib import messages
+from .models import Peleador, Combate
+from .forms import PeleadorForm, CombateForm
 
 def inicio(request):
     return render(request, 'ufc/inicio.html')
 
+# LISTAR Y BUSCAR PELEADORES
 def peleadores(request):
-    # El ORM extrae todos los registros de la base de datos
-    lista_peleadores = Peleador.objects.all()
+    query = request.GET.get('q', '').strip()
+    if query:
+        lista_peleadores = Peleador.objects.filter(
+            Q(nombre__icontains=query) |
+            Q(apodo__icontains=query) |
+            Q(categoria__nombre__icontains=query) |
+            Q(gimnasio__nombre__icontains=query)
+        )
+    else:
+        lista_peleadores = Peleador.objects.all()
     
     context = {
-        'peleadores': lista_peleadores 
+        'peleadores': lista_peleadores,
+        'query': query
     }
     return render(request, 'ufc/peleadores.html', context)
+
+# CREAR PELEADOR
+def crear_peleador(request):
+    if request.method == 'POST':
+        form = PeleadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Peleador registrado correctamente.')
+            return redirect('peleadores')
+    else:
+        form = PeleadorForm()
+    return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Agregar'})
+
+# MODIFICAR PELEADOR
+def editar_peleador(request, id):
+    peleador = get_object_or_404(Peleador, id=id)
+    if request.method == 'POST':
+        form = PeleadorForm(request.POST, instance=peleador)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Datos del peleador actualizados.')
+            return redirect('peleadores')
+    else:
+        form = PeleadorForm(instance=peleador)
+    return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Modificar', 'peleador': peleador})
+
+# ELIMINAR PELEADOR
+def eliminar_peleador(request, id):
+    peleador = get_object_or_404(Peleador, id=id)
+    if request.method == 'POST':
+        peleador.delete()
+        messages.success(request, 'Peleador eliminado del registro.')
+        return redirect('peleadores')
+    return render(request, 'ufc/peleador_confirm_delete.html', {'peleador': peleador})
+
+# TRANSACCIÓN OPERACIONAL: LISTAR Y PROGRAMAR COMBATES
+def combates(request):
+    lista_combates = Combate.objects.select_related('categoria', 'esquina_roja', 'esquina_azul').all().order_by('-fecha')
+    if request.method == 'POST':
+        form = CombateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Combate oficial programado con éxito.')
+            return redirect('combates')
+    else:
+        form = CombateForm()
+    
+    return render(request, 'ufc/combates.html', {'combates': lista_combates, 'form': form})
+
+def eliminar_combate(request, id):
+    combate = get_object_or_404(Combate, id=id)
+    if request.method == 'POST':
+        combate.delete()
+        messages.success(request, 'Combate cancelado y eliminado.')
+    return redirect('combates')

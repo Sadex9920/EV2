@@ -26,3 +26,15 @@ class Peleador(models.Model):
 
     def __str__(self):
         return f"{self.nombre} ({self.record})"
+
+# Tabla 4: Transacción Operacional - Programación de Combates (EV3)
+class Combate(models.Model):
+    evento = models.CharField(max_length=100, help_text="Ej: UFC 310")
+    fecha = models.DateField()
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    esquina_roja = models.ForeignKey(Peleador, on_delete=models.CASCADE, related_name='combates_roja')
+    esquina_azul = models.ForeignKey(Peleador, on_delete=models.CASCADE, related_name='combates_azul')
+    por_titulo = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.evento}: {self.esquina_roja.nombre} vs {self.esquina_azul.nombre}"
