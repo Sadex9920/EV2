@@ -33,7 +33,7 @@ def crear_peleador(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Peleador registrado correctamente.')
-            return redirect('peleadores')
+            return redirect('ufc_peleadores')
     else:
         form = PeleadorForm()
     return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Agregar'})
@@ -46,7 +46,7 @@ def editar_peleador(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Datos del peleador actualizados.')
-            return redirect('peleadores')
+            return redirect('ufc_peleadores')
     else:
         form = PeleadorForm(instance=peleador)
     return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Modificar', 'peleador': peleador})
@@ -57,7 +57,7 @@ def eliminar_peleador(request, id):
     if request.method == 'POST':
         peleador.delete()
         messages.success(request, 'Peleador eliminado del registro.')
-        return redirect('peleadores')
+        return redirect('ufc_peleadores')
     return render(request, 'ufc/peleador_confirm_delete.html', {'peleador': peleador})
 
 # TRANSACCIÓN OPERACIONAL: LISTAR Y PROGRAMAR COMBATES

@@ -29,7 +29,7 @@ def crear_piloto(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Piloto registrado correctamente.')
-            return redirect('pilotos')
+            return redirect('motogp_pilotos')
     else:
         form = PilotoForm()
     return render(request, 'motogp/piloto_form.html', {'form': form, 'accion': 'Agregar'})
@@ -42,7 +42,7 @@ def editar_piloto(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Datos del piloto actualizados.')
-            return redirect('pilotos')
+            return redirect('motogp_pilotos')
     else:
         form = PilotoForm(instance=piloto)
     return render(request, 'motogp/piloto_form.html', {'form': form, 'accion': 'Modificar', 'piloto': piloto})
@@ -53,5 +53,5 @@ def eliminar_piloto(request, id):
     if request.method == 'POST':
         piloto.delete()
         messages.success(request, 'Piloto eliminado de la parrilla.')
-        return redirect('pilotos')
+        return redirect('motogp_pilotos')
     return render(request, 'motogp/piloto_confirm_delete.html', {'piloto': piloto})

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Peleador - UFC{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5" style="max-width: 600px;">
+    <div class="card bg-black border-danger border-2 shadow-lg p-4 text-center">
+        <h3 class="text-danger text-uppercase fw-bold mb-3">Confirmar Eliminación</h3>
+        <p class="text-light fs-5">¿Estás seguro de que deseas eliminar del roster a <strong class="text-white">{{ peleador.nombre }}</strong>?</p>
+        <form method="POST" class="mt-4 d-flex justify-content-center gap-3">
+            {% csrf_token %}
+            <a href="{% url 'ufc_peleadores' %}" class="btn btn-secondary fw-bold text-uppercase px-4">Cancelar</a>
+            <button type="submit" class="btn btn-danger fw-bold text-uppercase px-4">Sí, Eliminar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

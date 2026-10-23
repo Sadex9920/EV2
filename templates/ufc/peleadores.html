@@ -12,6 +12,15 @@
         <h2 class="text-uppercase fw-bold m-0 text-white display-5">Roster Oficial</h2>
     </div>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show fw-bold" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <!-- SECCIÓN DE HOMENAJE A ABDULMANAP -->
     <div class="card bg-black border-danger shadow-lg border-2 mb-5">
         <div class="row g-0 align-items-center">
@@ -38,12 +47,23 @@
     </div>
     
     <!-- Título divisor -->
-    <h3 class="text-center text-white text-uppercase fw-bold mb-3 mt-5">Luchadores</h3>
+    <h3 class="text-center text-white text-uppercase fw-bold mb-4 mt-5">Luchadores</h3>
 
-    <!-- BOTONES GENERALES (Requisito de Rúbrica) -->
-    <div class="d-flex justify-content-center gap-3 mb-5">
-        <a href="#" class="btn btn-success btn-lg text-uppercase fw-bold px-4 shadow">Agregar Peleador</a>
-        <button class="btn btn-info btn-lg text-white text-uppercase fw-bold px-4 shadow">Buscar</button>
+    <!-- BUSCADOR Y BOTONES GENERALES CRUD + TRANSACCIÓN -->
+    <div class="row justify-content-center mb-5 g-3">
+        <div class="col-md-6">
+            <form method="GET" action="{% url 'ufc_peleadores' %}" class="d-flex gap-2">
+                <input type="text" name="q" value="{{ query }}" class="form-control form-control-lg bg-black text-white border-danger" placeholder="Buscar por nombre, apodo, categoría o gimnasio...">
+                <button type="submit" class="btn btn-info btn-lg text-white text-uppercase fw-bold px-4 shadow">Buscar</button>
+                {% if query %}
+                    <a href="{% url 'ufc_peleadores' %}" class="btn btn-outline-light btn-lg fw-bold">Limpiar</a>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-md-auto d-flex gap-2">
+            <a href="{% url 'crear_peleador' %}" class="btn btn-success btn-lg text-uppercase fw-bold px-4 shadow">+ Agregar Peleador</a>
+            <a href="{% url 'combates' %}" class="btn btn-danger btn-lg text-uppercase fw-bold px-4 shadow">Programar Combates</a>
+        </div>
     </div>
 
     <!-- Grilla de Peleadores -->
@@ -51,23 +71,18 @@
         {% for peleador in peleadores %}
         <div class="col">
             <div class="card h-100 bg-black border-danger shadow border-2">
+                <div style="background-color: #111; height: 350px; overflow: hidden;" class="border-bottom border-danger">
+                    {% if peleador.imagen_url %}
+                        {% if 'http' in peleador.imagen_url %}
+                            <img src="{{ peleador.imagen_url }}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
+                        {% else %}
+                            <img src="{% static 'img/'|add:peleador.imagen_url %}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
+                        {% endif %}
+                    {% else %}
+                        <div class="d-flex justify-content-center align-items-center h-100 text-secondary">Sin imagen</div>
+                    {% endif %}
+                </div>
                 
-<!-- Contenedor de la Imagen -->
-<div style="background-color: #111; height: 350px; overflow: hidden;" class="border-bottom border-danger">
-    {% if peleador.imagen_url %}
-        {% if 'http' in peleador.imagen_url %}
-            <!-- Carga la imagen directamente desde el link de internet -->
-            <img src="{{ peleador.imagen_url }}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
-        {% else %}
-            <!-- Carga la imagen desde tu carpeta local /static/img/ -->
-            <img src="{% static 'img/'|add:peleador.imagen_url %}" class="w-100 h-100" style="object-fit: contain; object-position: bottom;" alt="{{ peleador.nombre }}">
-        {% endif %}
-    {% else %}
-        <div class="d-flex justify-content-center align-items-center h-100 text-secondary">Sin imagen</div>
-    {% endif %}
-</div>
-                
-                <!-- Datos del Peleador -->
                 <div class="card-body p-4 d-flex flex-column">
                     <h4 class="card-title fw-bold text-white text-uppercase mb-1">{{ peleador.nombre }}</h4>
                     
@@ -94,17 +109,17 @@
                         </li>
                     </ul>
 
-                    <!-- BOTONES DE ACCIÓN INDIVIDUAL (Requisito de Rúbrica) -->
+                    <!-- BOTONES DE ACCIÓN INDIVIDUAL -->
                     <div class="d-flex justify-content-between mt-auto">
-                        <a href="#" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
-                        <a href="#" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
+                        <a href="{% url 'editar_peleador' peleador.id %}" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
+                        <a href="{% url 'eliminar_peleador' peleador.id %}" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center py-5">
-            <h4 class="text-white-50">No hay peleadores registrados en la base de datos.</h4>
+            <h4 class="text-white-50">No se encontraron peleadores registrados.</h4>
         </div>
         {% endfor %}
     </div>

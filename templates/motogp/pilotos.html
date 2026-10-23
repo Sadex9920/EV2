@@ -10,10 +10,29 @@
         <h2 class="text-uppercase fw-bold m-0 text-white display-5">Grilla de Pilotos MotoGP</h2>
     </div>
 
-    <!-- BOTONES GENERALES (Requisito de Rúbrica) -->
-    <div class="d-flex justify-content-center gap-3 mb-5">
-        <a href="#" class="btn btn-success btn-lg text-uppercase fw-bold px-4 shadow">Agregar Piloto</a>
-        <button class="btn btn-info btn-lg text-white text-uppercase fw-bold px-4 shadow">Buscar</button>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show fw-bold" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- BUSCADOR Y BOTÓN AGREGAR -->
+    <div class="row justify-content-center mb-5 g-3">
+        <div class="col-md-6">
+            <form method="GET" action="{% url 'motogp_pilotos' %}" class="d-flex gap-2">
+                <input type="text" name="q" value="{{ query }}" class="form-control form-control-lg bg-black text-white border-danger" placeholder="Buscar por nombre, dorsal, escudería o categoría...">
+                <button type="submit" class="btn btn-info btn-lg text-white text-uppercase fw-bold px-4 shadow">Buscar</button>
+                {% if query %}
+                    <a href="{% url 'motogp_pilotos' %}" class="btn btn-outline-light btn-lg fw-bold">Limpiar</a>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-md-auto">
+            <a href="{% url 'crear_piloto' %}" class="btn btn-success btn-lg text-uppercase fw-bold px-4 shadow">+ Agregar Piloto</a>
+        </div>
     </div>
 
     <!-- Grilla de Pilotos -->
@@ -21,7 +40,6 @@
         {% for piloto in pilotos %}
         <div class="col">
             <div class="card h-100 bg-black border-danger shadow border-2">
-                <!-- Contenedor de la Imagen -->
                 <div style="background-color: #111; height: 350px; overflow: hidden;" class="border-bottom border-danger">
                     {% if piloto.imagen_url %}
                         {% if 'http' in piloto.imagen_url %}
@@ -34,7 +52,6 @@
                     {% endif %}
                 </div>
                 
-                <!-- Datos del Piloto -->
                 <div class="card-body p-4 d-flex flex-column">
                     <h4 class="card-title fw-bold text-white text-uppercase mb-1">#{{ piloto.numero }} - {{ piloto.nombre }}</h4>
                     <h6 class="card-subtitle mb-4 text-danger fw-bold">Edad: {{ piloto.edad }} años</h6>
@@ -56,19 +73,23 @@
                         </li>
                     </ul>
 
-                    <!-- BOTONES DE ACCIÓN INDIVIDUAL (Requisito de Rúbrica) -->
+                    <!-- BOTONES DE ACCIÓN INDIVIDUAL -->
                     <div class="d-flex justify-content-between mt-auto">
-                        <a href="#" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
-                        <a href="#" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
+                        <a href="{% url 'editar_piloto' piloto.id %}" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
+                        <a href="{% url 'eliminar_piloto' piloto.id %}" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center py-5">
-            <h4 class="text-white-50">No hay pilotos registrados en la base de datos.</h4>
+            <h4 class="text-white-50">No se encontraron pilotos registrados.</h4>
         </div>
         {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+         <a href="{% url 'motogp_inicio' %}" class="btn btn-outline-danger btn-lg text-uppercase fw-bold px-5">Volver</a>
     </div>
 </div>
 {% endblock %}
