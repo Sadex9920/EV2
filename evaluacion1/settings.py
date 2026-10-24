@@ -114,3 +114,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'  # Hacia dónde va al loguearse con éxito
 LOGOUT_REDIRECT_URL = 'login' # Hacia dónde va al cerrar sesión
 LOGIN_URL = 'login'           # Si alguien sin sesión intenta entrar a una vista protegida, lo manda acá
+
+# Forzar el cierre de sesión al cerrar el navegador (EV3)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
