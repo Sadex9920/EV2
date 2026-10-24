@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Piloto
 from .forms import PilotoForm
 
+@login_required
 def inicio(request):
     return render(request, 'motogp/inicio.html')
 
-# LISTAR Y BUSCAR PILOTOS
+@login_required
 def pilotos(request):
     query = request.GET.get('q', '').strip()
     if query:
@@ -22,7 +24,7 @@ def pilotos(request):
         
     return render(request, 'motogp/pilotos.html', {'pilotos': lista_pilotos, 'query': query})
 
-# CREAR PILOTO
+@login_required
 def crear_piloto(request):
     if request.method == 'POST':
         form = PilotoForm(request.POST)
@@ -34,7 +36,7 @@ def crear_piloto(request):
         form = PilotoForm()
     return render(request, 'motogp/piloto_form.html', {'form': form, 'accion': 'Agregar'})
 
-# MODIFICAR PILOTO
+@login_required
 def editar_piloto(request, id):
     piloto = get_object_or_404(Piloto, id=id)
     if request.method == 'POST':
@@ -47,7 +49,7 @@ def editar_piloto(request, id):
         form = PilotoForm(instance=piloto)
     return render(request, 'motogp/piloto_form.html', {'form': form, 'accion': 'Modificar', 'piloto': piloto})
 
-# ELIMINAR PILOTO
+@login_required
 def eliminar_piloto(request, id):
     piloto = get_object_or_404(Piloto, id=id)
     if request.method == 'POST':

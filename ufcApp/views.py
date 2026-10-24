@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Peleador, Combate
 from .forms import PeleadorForm, CombateForm
 
+@login_required
 def inicio(request):
     return render(request, 'ufc/inicio.html')
 
-# LISTAR Y BUSCAR PELEADORES
+@login_required
 def peleadores(request):
     query = request.GET.get('q', '').strip()
     if query:
@@ -26,7 +28,7 @@ def peleadores(request):
     }
     return render(request, 'ufc/peleadores.html', context)
 
-# CREAR PELEADOR
+@login_required
 def crear_peleador(request):
     if request.method == 'POST':
         form = PeleadorForm(request.POST)
@@ -38,7 +40,7 @@ def crear_peleador(request):
         form = PeleadorForm()
     return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Agregar'})
 
-# MODIFICAR PELEADOR
+@login_required
 def editar_peleador(request, id):
     peleador = get_object_or_404(Peleador, id=id)
     if request.method == 'POST':
@@ -51,7 +53,7 @@ def editar_peleador(request, id):
         form = PeleadorForm(instance=peleador)
     return render(request, 'ufc/peleador_form.html', {'form': form, 'accion': 'Modificar', 'peleador': peleador})
 
-# ELIMINAR PELEADOR
+@login_required
 def eliminar_peleador(request, id):
     peleador = get_object_or_404(Peleador, id=id)
     if request.method == 'POST':
@@ -60,7 +62,7 @@ def eliminar_peleador(request, id):
         return redirect('ufc_peleadores')
     return render(request, 'ufc/peleador_confirm_delete.html', {'peleador': peleador})
 
-# TRANSACCIÓN OPERACIONAL: LISTAR Y PROGRAMAR COMBATES
+@login_required
 def combates(request):
     lista_combates = Combate.objects.select_related('categoria', 'esquina_roja', 'esquina_azul').all().order_by('-fecha')
     if request.method == 'POST':
@@ -74,6 +76,7 @@ def combates(request):
     
     return render(request, 'ufc/combates.html', {'combates': lista_combates, 'form': form})
 
+@login_required
 def eliminar_combate(request, id):
     combate = get_object_or_404(Combate, id=id)
     if request.method == 'POST':
