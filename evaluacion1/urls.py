@@ -16,15 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView  # Importamos esta herramienta
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Nueva página principal del proyecto
+    # Página principal del proyecto
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     
-    # Rutas de las aplicaciones (ahora UFC tiene su propia ruta)
+    # Rutas de las aplicaciones
     path('ufc/', include('ufcApp.urls')),
     path('motogp/', include('motogpApp.urls')),
+    
+    # Rutas del Sistema de Autenticación de Django (Login, Logout, Password Reset)
+    path('cuentas/', include('django.contrib.auth.urls')),
 ]

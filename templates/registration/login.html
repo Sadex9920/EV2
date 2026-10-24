@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión - SportCenter{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="card bg-black border-danger border-2 shadow-lg p-5" style="width: 100%; max-width: 450px;">
+        
+        <div class="text-center mb-4 border-bottom border-danger pb-3">
+            <h2 class="text-white text-uppercase fw-bold m-0">Acceso Seguro</h2>
+            <p class="text-danger fw-bold mt-2">Plataforma SportCenter</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="alert alert-danger fw-bold text-center">
+                Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="id_username" class="form-label text-white fw-bold text-uppercase">Usuario</label>
+                <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="Ingresa tu usuario">
+            </div>
+
+            <div class="mb-4">
+                <label for="id_password" class="form-label text-white fw-bold text-uppercase">Contraseña</label>
+                <input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold text-uppercase mt-2 shadow">Iniciar Sesión</button>
+            
+            <!-- Enlace preparado para el paso de recuperación de contraseña -->
+            <div class="text-center mt-4">
+                <a href="#" class="text-white-50 text-decoration-none">¿Olvidaste tu contraseña?</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
