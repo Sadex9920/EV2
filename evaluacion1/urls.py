@@ -17,13 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required  # Importamos el candado
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views  # Importamos las vistas de seguridad
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Bloqueamos la página de bienvenida desde la raíz
-    path('', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
+    # La raíz (/) ahora es EXCLUSIVAMENTE la pantalla de Login
+    # redirect_authenticated_user=True hace que si ya estás logueado, te salte directo al Home
+    path('', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True), name='login_raiz'),
+    
+    # El Home general ahora vive en su propia ruta protegida
+    path('home/', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
     
     # Rutas de las aplicaciones
     path('ufc/', include('ufcApp.urls')),
