@@ -17,17 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required  # Importamos el candado
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Página principal del proyecto
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # Bloqueamos la página de bienvenida desde la raíz
+    path('', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
     
     # Rutas de las aplicaciones
     path('ufc/', include('ufcApp.urls')),
     path('motogp/', include('motogpApp.urls')),
     
-    # Rutas del Sistema de Autenticación de Django (Login, Logout, Password Reset)
+    # Rutas del Sistema de Autenticación de Django
     path('cuentas/', include('django.contrib.auth.urls')),
 ]
