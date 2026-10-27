@@ -36,6 +36,7 @@
                     <td class="fw-bold">{{ usuario.username }}</td>
                     <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
                     <td>{{ usuario.email }}</td>
+                    <!-- Reemplaza la fila de <td> correspondiente en tu archivo actual -->
                     <td>
                         {% for grupo in usuario.groups.all %}
                             {% if grupo.name == 'Administrador' %}
@@ -48,6 +49,14 @@
                         {% empty %}
                             <span class="badge bg-secondary p-2 text-uppercase">Sin Perfil</span>
                         {% endfor %}
+                    </td>
+                    <!-- NUEVA COLUMNA DE ACCIONES -->
+                    <td>
+                        <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-warning fw-bold text-uppercase me-2">Editar</a>
+                        <form method="POST" action="{% url 'eliminar_usuario' usuario.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger fw-bold text-uppercase" onclick="return confirm('¿Estás seguro de eliminar a {{ usuario.username }}?');">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
                 {% empty %}

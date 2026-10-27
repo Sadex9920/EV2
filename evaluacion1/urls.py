@@ -31,6 +31,8 @@ urlpatterns = [
     # Rutas Globales de Gestión de Usuarios
     path('usuarios/', global_views.listar_usuarios, name='listar_usuarios'),
     path('usuarios/crear/', global_views.crear_usuario, name='crear_usuario'),
+    path('usuarios/editar/<int:id>/', global_views.editar_usuario, name='editar_usuario'),
+    path('usuarios/eliminar/<int:id>/', global_views.eliminar_usuario, name='eliminar_usuario'),
     
     # FLUJO DE RECUPERACIÓN DE CONTRASEÑA (EV3)
     path('recuperar/', core_views.solicitar_codigo, name='solicitar_codigo'),

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import RegistroUsuarioForm
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User, Group
 
 @login_required
 def listar_usuarios(request):
@@ -28,3 +30,43 @@ def crear_usuario(request):
         form = RegistroUsuarioForm()
     
     return render(request, 'usuarios/crear_usuario.html', {'form': form})
+
+def editar_usuario(request, id):
+    usuario = get_object_or_404(User, id=id)
+    grupos = Group.objects.all()
+    
+    if request.method == 'POST':
+        usuario.first_name = request.POST.get('first_name', '')
+        usuario.last_name = request.POST.get('last_name', '')
+        usuario.email = request.POST.get('email', '')
+        
+        # Actualizar el grupo (perfil)
+        grupo_id = request.POST.get('grupo')
+        if grupo_id:
+            usuario.groups.clear() # Limpiar grupos anteriores
+            grupo = Group.objects.get(id=grupo_id)
+            usuario.groups.add(grupo)
+            
+        usuario.save()
+        messages.success(request, f"Usuario {usuario.username} actualizado correctamente.")
+        return redirect('listar_usuarios')
+        
+    # Obtener el grupo actual del usuario para marcarlo en el select
+    grupo_actual = usuario.groups.first()
+    
+    return render(request, 'usuarios/editar_usuario.html', {
+        'usuario_edit': usuario,
+        'grupos': grupos,
+        'grupo_actual': grupo_actual
+    })
+
+def eliminar_usuario(request, id):
+    usuario = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        # Evitar que el superusuario se elimine a sí mismo
+        if usuario.is_superuser and request.user == usuario:
+            messages.error(request, "No puedes eliminar tu propia cuenta de Superusuario.")
+        else:
+            usuario.delete()
+            messages.success(request, "Usuario eliminado del sistema.")
+    return redirect('listar_usuarios')
