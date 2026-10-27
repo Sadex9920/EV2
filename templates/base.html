@@ -47,7 +47,7 @@
                     {% if user.is_authenticated %}
                         
                         <!-- ESTE ES EL FILTRO: Solo si es Administrador se crea este botón -->
-                        {% if user|has_group:"Administrador" %}
+                        {% if user|has_group:"Administrador" or user.is_superuser %}
                         <li class="nav-item ms-lg-4 d-flex align-items-center">
                             <a href="{% url 'listar_usuarios' %}" class="btn btn-warning btn-sm fw-bold text-dark text-uppercase me-3">Gestión de Usuarios</a>
                         </li>
