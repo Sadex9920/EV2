@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load auth_extras %}
 
 {% block title %}MotoGP - Grilla Oficial{% endblock %}
 
@@ -74,10 +75,16 @@
                     </ul>
 
                     <!-- BOTONES DE ACCIÓN INDIVIDUAL -->
+                    {% if not user|has_group:"Administrativo" %}
                     <div class="d-flex justify-content-between mt-auto">
                         <a href="{% url 'editar_piloto' piloto.id %}" class="btn btn-warning fw-bold text-uppercase w-100 me-2">Modificar</a>
                         <a href="{% url 'eliminar_piloto' piloto.id %}" class="btn btn-danger fw-bold text-uppercase w-100">Eliminar</a>
                     </div>
+                    {% else %}
+                    <div class="mt-auto text-center border border-secondary rounded p-2">
+                        <span class="text-white-50 small text-uppercase fw-bold">Solo Lectura</span>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
