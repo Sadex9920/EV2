@@ -120,8 +120,11 @@ LOGIN_URL = 'login'           # Si alguien sin sesión intenta entrar a una vist
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # ==========================================
-# CONFIGURACIÓN DE CORREO (MODO DESARROLLO)
+# CONFIGURACIÓN REAL DE CORREO (SMTP)
 # ==========================================
-# Esto imprimirá el correo con el código de 5 dígitos directamente en la terminal de VS Code
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'soporte@sportcenter.cl'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'saidslaibe27@gmail.com'  # Tu Gmail real
+EMAIL_HOST_PASSWORD = 'oppkzskorlfpznvq' # La clave de 16 letras
