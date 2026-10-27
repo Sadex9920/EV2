@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Verificar Código - SportCenter{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="card bg-black border-warning border-2 shadow-lg p-5" style="width: 100%; max-width: 500px;">
+        <div class="text-center mb-4 border-bottom border-warning pb-3">
+            <h3 class="text-white text-uppercase fw-bold m-0">Validar Código</h3>
+            <p class="text-warning fw-bold mt-2">Paso 2: Verificación de Seguridad</p>
+        </div>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger fw-bold text-center">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4 text-center">
+                <label class="form-label text-white fw-bold mb-3">INGRESA EL CÓDIGO DE 5 DÍGITOS</label>
+                <input type="text" name="codigo" class="form-control form-control-lg bg-dark text-white border-secondary text-center fw-bold fs-2" maxlength="5" placeholder="12345" required autocomplete="off" style="letter-spacing: 15px;">
+                <div class="form-text text-white-50 mt-3">Revisa tu terminal de VS Code para ver el código generado.</div>
+            </div>
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-warning btn-lg fw-bold text-dark text-uppercase shadow">Verificar Código</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -118,3 +118,10 @@ LOGIN_URL = 'login'           # Si alguien sin sesión intenta entrar a una vist
 
 # Forzar el cierre de sesión al cerrar el navegador (EV3)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# ==========================================
+# CONFIGURACIÓN DE CORREO (MODO DESARROLLO)
+# ==========================================
+# Esto imprimirá el correo con el código de 5 dígitos directamente en la terminal de VS Code
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'soporte@sportcenter.cl'

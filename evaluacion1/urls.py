@@ -19,7 +19,8 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
-from . import views  # Importamos las nuevas vistas globales de usuarios
+from core import views as core_views  # Importamos las vistas de recuperación de core
+from evaluacion1 import views as global_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,9 +28,14 @@ urlpatterns = [
     path('', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True), name='login_raiz'),
     path('home/', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
     
-    # Nuevas Rutas Globales de Gestión de Usuarios
-    path('usuarios/', views.listar_usuarios, name='listar_usuarios'),
-    path('usuarios/crear/', views.crear_usuario, name='crear_usuario'),
+    # Rutas Globales de Gestión de Usuarios
+    path('usuarios/', global_views.listar_usuarios, name='listar_usuarios'),
+    path('usuarios/crear/', global_views.crear_usuario, name='crear_usuario'),
+    
+    # FLUJO DE RECUPERACIÓN DE CONTRASEÑA (EV3)
+    path('recuperar/', core_views.solicitar_codigo, name='solicitar_codigo'),
+    path('recuperar/verificar/', core_views.verificar_codigo, name='verificar_codigo'),
+    path('recuperar/nueva-clave/', core_views.nueva_password, name='nueva_password'),
     
     path('ufc/', include('ufcApp.urls')),
     path('motogp/', include('motogpApp.urls')),
