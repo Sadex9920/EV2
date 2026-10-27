@@ -71,7 +71,12 @@
 
                     <!-- INICIO BOTONES DE SESIÓN (EV3) -->
                     {% if user.is_authenticated %}
-                        <li class="nav-item ms-lg-4 border-start border-secondary ps-lg-4 d-flex align-items-center">
+                        <!-- Botón de Gestión de Usuarios -->
+                        <li class="nav-item ms-lg-4 d-flex align-items-center">
+                            <a href="{% url 'listar_usuarios' %}" class="btn btn-warning btn-sm fw-bold text-dark text-uppercase me-3">Gestión de Usuarios</a>
+                        </li>
+                        
+                        <li class="nav-item ms-lg-2 border-start border-secondary ps-lg-4 d-flex align-items-center">
                             <span class="nav-link text-white me-3 d-none d-lg-block">Hola, <strong class="text-danger text-uppercase">{{ user.username }}</strong></span>
                             <!-- Django 5+ requiere que el Logout sea un POST por seguridad -->
                             <form method="post" action="{% url 'logout' %}" class="d-inline m-0">
