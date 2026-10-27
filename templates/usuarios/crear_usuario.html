@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Crear Usuario - SportCenter{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="card bg-black border-danger border-2 shadow-lg p-5" style="width: 100%; max-width: 650px;">
+        
+        <div class="text-center mb-4 border-bottom border-danger pb-3">
+            <h3 class="text-white text-uppercase fw-bold m-0">Nuevo Usuario</h3>
+            <p class="text-danger fw-bold mt-2">Creación de cuenta y asignación de perfil</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="mb-4">
+                    <label class="form-label text-white fw-bold text-uppercase">{{ field.label }}</label>
+                    {{ field }}
+                    
+                    {% if field.errors %}
+                        <div class="text-danger mt-2 small fw-bold">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if field.help_text %}
+                        <div class="form-text text-white-50 small mt-1">
+                            {{ field.help_text|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="d-grid gap-3 mt-5">
+                <button type="submit" class="btn btn-danger btn-lg fw-bold text-uppercase shadow">Registrar en el Sistema</button>
+                <a href="{% url 'listar_usuarios' %}" class="btn btn-outline-light btn-lg fw-bold text-uppercase">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

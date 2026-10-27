@@ -18,22 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import views as auth_views  # Importamos las vistas de seguridad
+from django.contrib.auth import views as auth_views
+from . import views  # Importamos las nuevas vistas globales de usuarios
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # La raíz (/) ahora es EXCLUSIVAMENTE la pantalla de Login
-    # redirect_authenticated_user=True hace que si ya estás logueado, te salte directo al Home
     path('', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True), name='login_raiz'),
-    
-    # El Home general ahora vive en su propia ruta protegida
     path('home/', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
     
-    # Rutas de las aplicaciones
+    # Nuevas Rutas Globales de Gestión de Usuarios
+    path('usuarios/', views.listar_usuarios, name='listar_usuarios'),
+    path('usuarios/crear/', views.crear_usuario, name='crear_usuario'),
+    
     path('ufc/', include('ufcApp.urls')),
     path('motogp/', include('motogpApp.urls')),
-    
-    # Rutas del Sistema de Autenticación de Django
     path('cuentas/', include('django.contrib.auth.urls')),
 ]
