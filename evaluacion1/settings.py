@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ufcApp',     
-    'motogpApp',  
+    'motogpApp',
+    'core',  
 ]
 
 MIDDLEWARE = [
